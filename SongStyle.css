@@ -13,7 +13,7 @@
   height: 70px;
   overflow: hidden;
   margin-top: -70px;
-  margin-left: 70px;
+  margin-left: 75px;
   padding: 0;
 
 }
@@ -38,7 +38,7 @@
 
 
 body{
-  background-color: #ffffff;
+  background-color: transparent;
   padding: 0 !important;
   margin: 0 !important;
 }
