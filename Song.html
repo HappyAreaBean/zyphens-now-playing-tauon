@@ -9,6 +9,8 @@
   <script>
     var newSong;
     var newArtist;
+    var songId;
+    var albumArt;
     var shown = false;
     function hideText() {
       $("#artist").animate({
@@ -65,12 +67,19 @@
     }
 
     function checkUpdate() {
-      $.get("Snip_Artist.txt", function(art) {
-        newArtist = art.replace(/&/g, "&amp;");
-      }).then(
-      $.get("Snip_Track.txt", function(sng) {
-        newSong = sng.replace(/&/g, "&amp;");
-      })).then(displayData);
+      $.getJSON('http://localhost:8000/api1/status', function(data) {
+
+        newArtist = data.artist;
+
+        if (data.status == "paused" || data.status == "stopped") {
+          newSong = "";
+        } else {
+          newSong = data.title;
+        }
+
+        albumArt = "http://localhost:8000/api1/pic/medium/" + data.id;
+      }).then(displayData);
+
 
       setTimeout(checkUpdate, 2000);
     }
@@ -93,7 +102,7 @@
         hideText();
         setTimeout(updateText, 300);
         setTimeout(showText, 400);
-        var imgpath = "Snip_Artwork.jpg?t=" + newSong + newArtist;
+        var imgpath = albumArt;
         document.getElementById("image").setAttribute("src", imgpath);
         $("#image2").fadeOut(500, function(){
           document.getElementById("image2").setAttribute("src", imgpath);
